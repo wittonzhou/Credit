@@ -18,6 +18,7 @@ def oneClassSVMClassify(X_majroity, X_train, X_test, y_train, y_test):
     print(classification_report(y_test, y_pred_test))
 
     # ROC_AUC_SCORE: 0.7006504878658995
+    # ROC_AUC_SCORE: 0.7394893853198279
     print('ROC_AUC_SCORE:', roc_auc_score(y_test, y_pred_test))
     # 考虑类别不平衡，用weighted
     print('train dataset F1_SCORE:', f1_score(y_train, y_pred_train, average='weighted'))
@@ -25,8 +26,8 @@ def oneClassSVMClassify(X_majroity, X_train, X_test, y_train, y_test):
 
 
 def get_maj_min_data(df=None):
-    majroity = df[df.binaryCategory == 1]
-    minroity = df[df.binaryCategory == -1]
+    majroity = df[df.BinCategory == 1]
+    minroity = df[df.BinCategory == -1]
     X_majroity = majroity.ix[:, 0:-1]
     X_minroity = minroity.ix[:, 0:-1]
     y_majority = majroity.ix[:, -1]

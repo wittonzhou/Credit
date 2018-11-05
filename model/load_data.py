@@ -20,7 +20,7 @@ from sklearn.decomposition import PCA
 
 
 def load_data():
-    train = pd.read_csv('../input/all.csv')
+    train = pd.read_csv('../input/newdata4w.csv')
     # test = pd.read_csv('../input/test.csv')
     # test = pd.read_csv('../input/test.csv')
     print(train.columns)
@@ -31,9 +31,6 @@ def load_data():
         print("type of", i, train[i].dtype)
 
     print(train.shape)
-    # 去掉正在还的人（PROCESSSTATE == 60），有21039-2637= 18402人
-    # 剩余人数为2637
-    # train = train[train.PROCESSSTATE != 60]
 
 
     # 处理日期
@@ -49,8 +46,8 @@ def load_data():
     # JOB_TITLE:职称（因为重复了）
     # MARRIAGE_STATE:婚姻状况（因为重复了）
     # OCCUPATIONID:职业（因为重复了）
-    train = train.drop(['GRZHZT', 'BIRTHDAY', 'YDFKRQ', 'JKHTQDRQ', 'TIPTOP_DEGREE', 'ZHIWU', 'SSRQ', 'PROCESSSTATE', 'JOB_TITLE', 'MARRIAGE_STATE', 'OCCUPATIONID'], axis=1)
-    not_used_col = ['STATEID', 'FXZE', 'YQBJZE', 'YQLXZE', 'LJYQQS', 'YQQC', 'YQBJ', 'SSYQBJJE', 'SSYQFXJE', 'SSYQLXJE']
+    train = train.drop(['GRZHZT', 'BIRTHDAY', 'YDFKRQ', 'JKHTQDRQ', 'TIPTOP_DEGREE', 'ZHIWU', 'PROCESSSTATE', 'JOB_TITLE', 'MARRIAGE_STATE', 'OCCUPATIONID'], axis=1)
+    not_used_col = ['STATEID', 'FXZE', 'YQBJZE', 'YQLXZE', 'LJYQQS']
     for col in not_used_col:
         train = train.drop(col, axis=1)
 
@@ -60,7 +57,7 @@ def load_data():
 
     # drop掉YQYS和暂时drop掉Category
     train = train.drop(['YQYS', 'Category'], axis=1)
-    # train = train.drop(['YQYS', 'binaryCategory'], axis=1)
+    # train = train.drop(['YQYS', 'BinCategory'], axis=1)
     ''' 数值型特征
         JTYSR 家庭月收入
         PJYSR 各人平均月收入
@@ -104,7 +101,7 @@ def load_data():
         PURPOSEID 贷款用途
     '''
     category_col = ['EMPLOYETYPE', 'HYZK', 'JOB', 'XINGBIE',
-                'XUELI', 'ZHICHEN', 'ZHIYE', 'max(DQQC)', 'PURPOSEID']
+                'XUELI', 'ZHICHEN', 'ZHIYE', 'DQQC', 'PURPOSEID']
 
     for col in category_col:
         train[col] = train[col].astype("category")
@@ -166,6 +163,7 @@ if __name__ == '__main__':
 
     getTSNE(X_test, y_test)
 
+    # 总共40949条数据
     print("train集X大小为：", X_train.shape)
     print("test集X大小为：", X_test.shape)
     print("train集y大小为：", y_train.shape)

@@ -16,8 +16,8 @@ OSIBD
 
 
 def get_maj_min_data(df=None):
-    majroity = df[df.binaryCategory == 1]
-    minroity = df[df.binaryCategory == -1]
+    majroity = df[df.BinCategory == 1]
+    minroity = df[df.BinCategory == -1]
     X_majroity = majroity.ix[:, 0:-1]
     X_minroity = minroity.ix[:, 0:-1]
     y_majority = majroity.ix[:, -1]
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = split_test_data(allData)
 
     # 过采样方法
-    X_resampled, y_resampled = randomOverSampler(X_train, y_train)
+    X_resampled, y_resampled = adasyn(X_train, y_train)
 
     # 预处理
     ss = StandardScaler()
