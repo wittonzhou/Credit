@@ -20,17 +20,18 @@ from sklearn.decomposition import PCA
 
 
 def load_data():
-    train = pd.read_csv('../input/newdata4w.csv')
+    train = pd.read_csv('../input/all.csv')
     # test = pd.read_csv('../input/test.csv')
     # test = pd.read_csv('../input/test.csv')
     print(train.columns)
-
+    print("未drop掉dkye != 0的数据时shape:", train.shape)
+    train = train[train.DKYE == 0]
     const_cols = [c for c in train.columns if train[c].nunique(dropna=False) == 1]
     # print(const_cols)
     for i in train.columns:
         print("type of", i, train[i].dtype)
 
-    print(train.shape)
+    print("drop掉dkye != 0的数据时shape:", train.shape)
 
 
     # 处理日期
@@ -46,8 +47,10 @@ def load_data():
     # JOB_TITLE:职称（因为重复了）
     # MARRIAGE_STATE:婚姻状况（因为重复了）
     # OCCUPATIONID:职业（因为重复了）
-    train = train.drop(['GRZHZT', 'BIRTHDAY', 'YDFKRQ', 'JKHTQDRQ', 'TIPTOP_DEGREE', 'ZHIWU', 'PROCESSSTATE', 'JOB_TITLE', 'MARRIAGE_STATE', 'OCCUPATIONID'], axis=1)
-    not_used_col = ['STATEID', 'FXZE', 'YQBJZE', 'YQLXZE', 'LJYQQS']
+    # SSRQ 新数据集不需要drop掉
+    # 'YQQC', 'YQBJ', 'SSYQBJJE', 'SSYQFXJE', 'SSYQLXJE' 新数据集不需要drop掉
+    train = train.drop(['GRZHZT', 'BIRTHDAY', 'YDFKRQ', 'JKHTQDRQ', 'TIPTOP_DEGREE', 'ZHIWU', 'PROCESSSTATE', 'JOB_TITLE', 'MARRIAGE_STATE', 'OCCUPATIONID', 'SSRQ'], axis=1)
+    not_used_col = ['STATEID', 'FXZE', 'YQBJZE', 'YQLXZE', 'LJYQQS', 'YQQC', 'YQBJ', 'SSYQBJJE', 'SSYQFXJE', 'SSYQLXJE']
     for col in not_used_col:
         train = train.drop(col, axis=1)
 
@@ -101,7 +104,7 @@ def load_data():
         PURPOSEID 贷款用途
     '''
     category_col = ['EMPLOYETYPE', 'HYZK', 'JOB', 'XINGBIE',
-                'XUELI', 'ZHICHEN', 'ZHIYE', 'DQQC', 'PURPOSEID']
+                'XUELI', 'ZHICHEN', 'ZHIYE', 'max(DQQC)', 'PURPOSEID']
 
     for col in category_col:
         train[col] = train[col].astype("category")
@@ -143,32 +146,36 @@ def split_test_data(df=None):
 # 非线性降维TSNE
 # 还可以用pca
 def getTSNE(df=None, label=None):
-    # tsne = TSNE(n_components=2, init='pca', random_state=1995).fit_transform(df)
-    pca = PCA().fit_transform(df)
+    tsne = TSNE(n_components=2, init='pca', random_state=1995).fit_transform(df)
     plt.figure(figsize=(6, 6))
-    # plt.subplot(111)
-    # plt.scatter(tsne[:, 0], tsne[:, 1], c=label)
-    # plt.subplot(122)
-    # plt.scatter(pca[:, 0], pca[:, 1], c=label)
-    plt.subplot(111)
-    plt.scatter(pca[:, 0], pca[:, 1], c=label, marker='o')
+    plt.scatter(tsne[:, 0], tsne[:, 1], c=label, marker='o')
     plt.colorbar()
     plt.show()
 
 
+def getPCA(df=None, label=None):
+    model = PCA(n_components=2)
+    pca = model.fit_transform(df)
+    plt.figure(figsize=(6, 6))
+    plt.scatter(pca[:, 0], pca[:, 1], c=label, marker='o')
+    plt.colorbar()
+    plt.show()
+
 if __name__ == '__main__':
     allData = load_data()
-
+    X_all = allData.ix[:, 0:-1]
+    y_all = allData.ix[:, -1]
+    print(X_all.shape, y_all.shape)
     X_train, X_test, y_train, y_test = split_test_data(allData)
 
-    getTSNE(X_test, y_test)
+    getPCA(X_test, y_test)
 
     # 总共40949条数据
     print("train集X大小为：", X_train.shape)
     print("test集X大小为：", X_test.shape)
     print("train集y大小为：", y_train.shape)
     print("test集y大小为：", y_test.shape)
-    print("test集y大小为：", y_test.shape[0])
+
 
 
 
