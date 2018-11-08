@@ -2,7 +2,7 @@
 import lightgbm as lgb
 import pandas as pd
 import numpy as np
-from sklearn.metrics import roc_auc_score, classification_report
+from sklearn.metrics import roc_auc_score, classification_report, accuracy_score
 from sklearn.model_selection import train_test_split
 from model.load_data import load_data, split_test_data
 import matplotlib.pylab as plt
@@ -26,10 +26,7 @@ def run_lgb(train_X, train_y, val_X, val_y, test_X, test_y):
     model = lgb.train(params, lgb_train, num_boost_round=20, valid_sets=lgb_val, early_stopping_rounds=50)
 
     pred_test_y = model.predict(test_X, num_iteration=model.best_iteration)
-
-
     print('ROC_AUC_SCORE:', roc_auc_score(test_y, pred_test_y))
-    print('classification_report:\n', classification_report(test_y, pred_test_y))
     return pred_test_y, model
 
 if __name__ == '__main__':
@@ -51,10 +48,9 @@ if __name__ == '__main__':
     test_y = test_xy.ix[:, -1]
 
     pred_test, model = run_lgb(train_X, train_y, val_X, val_y, test_X, test_y)
-    print('The roc of prediction is:', roc_auc_score(test_y, pred_test))
     print('Feature names:', model.feature_name())
 
     lgb.plot_importance(model, max_num_features=30)
-    plt.title("Featurertances")
-    #plt.show()
+    plt.title("FeatureImportances")
+    plt.show()
 

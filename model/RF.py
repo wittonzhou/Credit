@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import roc_auc_score, classification_report, accuracy_score
+from sklearn.metrics import roc_auc_score, classification_report
 import numpy as np
 import matplotlib.pyplot as plt
 from model.load_data import load_data, split_test_data
@@ -12,9 +12,8 @@ def RF(X_train, X_test, y_train, y_test, features_list):
     y_pred_test = clf.predict(X_test)
     print('ROC_AUC_SCORE:', roc_auc_score(y_test, y_pred_test))
     print('classification_report:\n', classification_report(y_test, y_pred_test))
-    print('accuracy_score:', accuracy_score(y_test, y_pred_test))
     print('feature importance:', clf.feature_importances_)
-
+    print('RF预测准确率：', clf.score(X_test, y_test))
     feature_importance = clf.feature_importances_
 
     sorted_idx = np.argsort(feature_importance)

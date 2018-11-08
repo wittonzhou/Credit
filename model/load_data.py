@@ -67,7 +67,7 @@ def load_data():
         JTYSR 家庭月收入
         PJYSR 各人平均月收入
         HTDKJE 合同贷款金额
-        JKHTLL 借款合同利率(年%)
+        # JKHTLL 借款合同利率(年%)
         # MONTHRETURNAMOUNT 月还款额
         # PUNISHRATE 罚息日利率(万分之)
         FWZJ 房屋总价
