@@ -3,7 +3,7 @@ import numpy as np
 from sklearn import svm
 
 from model.load_data import load_data, split_test_data
-from sklearn.metrics import classification_report, roc_auc_score
+from sklearn.metrics import classification_report, roc_auc_score, accuracy_score
 from sklearn.metrics import f1_score
 
 
@@ -23,11 +23,11 @@ def oneClassSVMClassify(X_majroity, X_train, X_test, y_train, y_test):
     # 考虑类别不平衡，用weighted
     print('train dataset F1_SCORE:', f1_score(y_train, y_pred_train, average='weighted'))
     print('test dataset F1_SCORE:', f1_score(y_test, y_pred_test, average='weighted'))
-
+    print('accuracy_score:', accuracy_score(y_test, y_pred_test))
 
 def get_maj_min_data(df=None):
-    majroity = df[df.BinCategory == 1]
-    minroity = df[df.BinCategory == -1]
+    majroity = df[df.binaryCategory == 1]
+    minroity = df[df.binaryCategory == -1]
     X_majroity = majroity.ix[:, 0:-1]
     X_minroity = minroity.ix[:, 0:-1]
     y_majority = majroity.ix[:, -1]

@@ -2,7 +2,7 @@
 from sklearn.preprocessing import StandardScaler
 from model.load_data import load_data, split_test_data
 from sklearn import tree
-from sklearn.metrics import roc_auc_score, classification_report
+from sklearn.metrics import roc_auc_score, classification_report, accuracy_score
 from imblearn.over_sampling import RandomOverSampler, SMOTE, ADASYN
 
 
@@ -16,8 +16,8 @@ OSIBD
 
 
 def get_maj_min_data(df=None):
-    majroity = df[df.BinCategory == 1]
-    minroity = df[df.BinCategory == -1]
+    majroity = df[df.binaryCategory == 1]
+    minroity = df[df.binaryCategory == -1]
     X_majroity = majroity.ix[:, 0:-1]
     X_minroity = minroity.ix[:, 0:-1]
     y_majority = majroity.ix[:, -1]
@@ -36,6 +36,7 @@ def osibd(X_train, X_test, y_train, y_test):
     # ADASYN 0.5120060424465268
     print('ROC_AUC_SCORE:', roc_auc_score(y_test, y_pred_test))
     print('classification_report:\n', classification_report(y_test, y_pred_test))
+    print('accuracy_score:', accuracy_score(y_test, y_pred_test))
 
 
 def randomOverSampler(X_train, y_train):
@@ -70,22 +71,24 @@ def adasyn(X_train, y_train):
     X_resampled, y_resampled = ADASYN(random_state=1995).fit_sample(X_train, y_train)
     majroity_size = y_resampled[y_resampled == 1]
     minroity_size = y_resampled[y_resampled == -1]
-    print('majroity_size:', majroity_size.shape)
-    print('minroity_size:', minroity_size.shape)
+    print('过采样后majroity_size:', majroity_size.shape)
+    print('过采样后minroity_size:', minroity_size.shape)
     return X_resampled, y_resampled
 
 
 if __name__ == '__main__':
     allData = load_data()
     X_majroity, X_minroity, y_majority, y_minroity = get_maj_min_data(allData)
+    print('未过采样时majroity_size:', y_majority.shape[0])
+    print('未过采样时minroity_size:', y_minroity.shape[0])
     X_train, X_test, y_train, y_test = split_test_data(allData)
 
     # 过采样方法
     X_resampled, y_resampled = adasyn(X_train, y_train)
 
     # 预处理
-    ss = StandardScaler()
-    X_resampled = ss.fit_transform(X_resampled)
-    X_test = ss.transform(X_test)
+    # ss = StandardScaler()
+    # X_resampled = ss.fit_transform(X_resampled)
+    # X_test = ss.transform(X_test)
     osibd(X_resampled, X_test, y_resampled, y_test)
 
