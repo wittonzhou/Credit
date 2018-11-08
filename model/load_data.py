@@ -60,16 +60,16 @@ def load_data():
     for i in train.columns:
         train[i] = train[i].fillna(0)
 
-    # drop掉YQYS,DKYE和暂时drop掉Category
-    train = train.drop(['YQYS', 'DKYE'], axis=1)
+    # drop掉YQYS,DKYE,MONTHRETURNAMOUNT,PUNISHRATE和暂时drop掉Category
+    train = train.drop(['YQYS', 'DKYE', 'MONTHRETURNAMOUNT', 'PUNISHRATE'], axis=1)
     # train = train.drop(['YQYS', 'BinCategory'], axis=1)
     ''' 数值型特征
         JTYSR 家庭月收入
         PJYSR 各人平均月收入
         HTDKJE 合同贷款金额
         JKHTLL 借款合同利率(年%)
-        MONTHRETURNAMOUNT 月还款额
-        PUNISHRATE 罚息日利率(万分之)
+        # MONTHRETURNAMOUNT 月还款额
+        # PUNISHRATE 罚息日利率(万分之)
         FWZJ 房屋总价
         GFSFK 购房首付款
         UNITPRICE 购房单价
@@ -78,7 +78,7 @@ def load_data():
         DKQS 贷款期数
         LLFDBL 利率浮动比例 只有0和1
     '''
-    numeric_col = ['JTYSR', 'PJYSR', 'HTDKJE', 'JKHTLL', 'MONTHRETURNAMOUNT', 'PUNISHRATE', 'FWZJ', 'GFSFK', 'UNITPRICE',
+    numeric_col = ['JTYSR', 'PJYSR', 'HTDKJE', 'JKHTLL', 'FWZJ', 'GFSFK', 'UNITPRICE',
                    'ALREADYPAYRATE', 'DKFFE', 'DKQS', 'LLFDBL']
 
     ''' 类别型特征
