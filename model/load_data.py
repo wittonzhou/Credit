@@ -50,8 +50,11 @@ def load_data():
     # HSLXZE 回收利息总额
     # TQGHBJZE 提前归还本金总额
     #  max(DQQC) max(当期期次)
+    # JKHTLL
+    # DKQS
     # 'YQQC', 'YQBJ', 'SSYQBJJE', 'SSYQFXJE', 'SSYQLXJE' 新数据集不需要drop掉
-    train = train.drop(['GRZHZT', 'BIRTHDAY', 'YDFKRQ', 'JKHTQDRQ', 'TIPTOP_DEGREE', 'ZHIWU', 'PROCESSSTATE', 'JOB_TITLE', 'MARRIAGE_STATE', 'OCCUPATIONID', 'SSRQ', 'HSBJZE', 'HSLXZE', 'TQGHBJZE', 'max(DQQC)'], axis=1)
+    train = train.drop(['GRZHZT', 'BIRTHDAY', 'YDFKRQ', 'JKHTQDRQ', 'TIPTOP_DEGREE', 'ZHIWU', 'PROCESSSTATE', 'JOB_TITLE',
+                        'MARRIAGE_STATE', 'OCCUPATIONID', 'SSRQ', 'HSBJZE', 'HSLXZE', 'TQGHBJZE', 'max(DQQC)', 'JKHTLL', 'DKQS'], axis=1)
     not_used_cols = ['STATEID', 'FXZE', 'YQBJZE', 'YQLXZE', 'LJYQQS', 'YQQC', 'YQBJ', 'SSYQBJJE', 'SSYQFXJE', 'SSYQLXJE']
     for col in not_used_cols:
         train = train.drop(col, axis=1)
@@ -75,11 +78,11 @@ def load_data():
         UNITPRICE 购房单价
         ALREADYPAYRATE 已付房款比例
         DKFFE 贷款发放额
-        DKQS 贷款期数
+        # DKQS 贷款期数
         LLFDBL 利率浮动比例 只有0和1
     '''
-    numeric_col = ['JTYSR', 'PJYSR', 'HTDKJE', 'JKHTLL', 'FWZJ', 'GFSFK', 'UNITPRICE',
-                   'ALREADYPAYRATE', 'DKFFE', 'DKQS', 'LLFDBL']
+    numeric_col = ['JTYSR', 'PJYSR', 'HTDKJE', 'FWZJ', 'GFSFK', 'UNITPRICE',
+                   'ALREADYPAYRATE', 'DKFFE', 'LLFDBL']
 
     ''' 类别型特征
         EMPLOYETYPE 缴存率类型
