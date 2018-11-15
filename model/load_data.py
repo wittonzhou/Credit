@@ -16,6 +16,8 @@ from sklearn.decomposition import PCA
 
 
 def load_data():
+    # total 处理过的数据集（去掉在换的贷款情况）
+    # all 未处理过的数据集
     train = pd.read_csv('../input/total.csv')
     print(train.columns)
     # print("未drop掉dkye != 0的数据时shape:", train.shape)
@@ -52,9 +54,11 @@ def load_data():
     #  max(DQQC) max(当期期次)
     # JKHTLL
     # DKQS
+    # HTDKJE
+    # LLFDBL
     # 'YQQC', 'YQBJ', 'SSYQBJJE', 'SSYQFXJE', 'SSYQLXJE' 新数据集不需要drop掉
     train = train.drop(['GRZHZT', 'BIRTHDAY', 'YDFKRQ', 'JKHTQDRQ', 'TIPTOP_DEGREE', 'ZHIWU', 'PROCESSSTATE', 'JOB_TITLE',
-                        'MARRIAGE_STATE', 'OCCUPATIONID', 'SSRQ', 'HSBJZE', 'HSLXZE', 'TQGHBJZE', 'max(DQQC)', 'JKHTLL', 'DKQS'], axis=1)
+                        'MARRIAGE_STATE', 'OCCUPATIONID', 'SSRQ', 'HSBJZE', 'HSLXZE', 'TQGHBJZE', 'max(DQQC)', 'JKHTLL', 'DKQS', 'HTDKJE', 'LLFDBL'], axis=1)
     not_used_cols = ['STATEID', 'FXZE', 'YQBJZE', 'YQLXZE', 'LJYQQS', 'YQQC', 'YQBJ', 'SSYQBJJE', 'SSYQFXJE', 'SSYQLXJE']
     for col in not_used_cols:
         train = train.drop(col, axis=1)
@@ -69,7 +73,7 @@ def load_data():
     ''' 数值型特征
         JTYSR 家庭月收入
         PJYSR 各人平均月收入
-        HTDKJE 合同贷款金额
+        # HTDKJE 合同贷款金额
         # JKHTLL 借款合同利率(年%)
         # MONTHRETURNAMOUNT 月还款额
         # PUNISHRATE 罚息日利率(万分之)
@@ -79,10 +83,10 @@ def load_data():
         ALREADYPAYRATE 已付房款比例
         DKFFE 贷款发放额
         # DKQS 贷款期数
-        LLFDBL 利率浮动比例 只有0和1
+        # LLFDBL 利率浮动比例 只有0和1
     '''
-    numeric_col = ['JTYSR', 'PJYSR', 'HTDKJE', 'FWZJ', 'GFSFK', 'UNITPRICE',
-                   'ALREADYPAYRATE', 'DKFFE', 'LLFDBL']
+    numeric_col = ['JTYSR', 'PJYSR', 'FWZJ', 'GFSFK', 'UNITPRICE',
+                   'ALREADYPAYRATE', 'DKFFE']
 
     ''' 类别型特征
         EMPLOYETYPE 缴存率类型

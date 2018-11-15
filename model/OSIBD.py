@@ -34,7 +34,7 @@ def osibd(X_train, X_test, y_train, y_test):
     # SMOTE 0.5022771818200142
     # SMOTE-Borderline1 0.5138753354115113
     # ADASYN 0.5120060424465268
-    print('ROC_AUC_SCORE:', roc_auc_score(y_test, y_pred_test))
+    # print('ROC_AUC_SCORE:', roc_auc_score(y_test, y_pred_test))
     print('classification_report:\n', classification_report(y_test, y_pred_test))
     print('accuracy_score:', accuracy_score(y_test, y_pred_test))
 
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = split_test_data(allData)
 
     # 过采样方法
-    X_resampled, y_resampled = adasyn(X_train, y_train)
+    X_resampled, y_resampled = randomOverSampler(X_train, y_train)
 
     # 预处理
     # ss = StandardScaler()
