@@ -3,6 +3,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import StratifiedKFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR, SVC
 from xgboost import XGBClassifier
 import lightgbm as lgb
 import numpy as np
@@ -83,7 +85,10 @@ def run(X_dev, X_test, y_dev, y_test):
     print("y_dev.shape = %s" % y_dev.shape)
 
     # start blending
-    bclf = LogisticRegression()
+    # LR和SVC效果差不多
+    # bclf = LogisticRegression()
+    # bclf.fit(blend_train, y_dev)
+    bclf = SVC()
     bclf.fit(blend_train, y_dev)
 
     # predict now
@@ -97,4 +102,9 @@ def run(X_dev, X_test, y_dev, y_test):
 if __name__ == '__main__':
     allData = load_data()
     X_train, X_test, y_train, y_test = split_test_data(allData)
+
+    # 预处理
+    # ss = StandardScaler()
+    # X_train = ss.fit_transform(X_train)
+    # X_test = ss.transform(X_test)
     run(X_train, X_test, y_train, y_test)
