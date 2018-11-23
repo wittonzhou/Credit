@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, roc_auc_score
+from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
 from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR, SVC
@@ -94,6 +94,7 @@ def run(X_dev, X_test, y_dev, y_test):
     # predict now
     y_test_predict = bclf.predict(blend_test)
     score = accuracy_score(y_test, y_test_predict)
+    print('分类报告：', classification_report(y_test,y_test_predict))
 
     print('ROC_AUC_SCORE: %s' % roc_auc_score(y_test, y_test_predict))
     print('Accuracy = %s' % score)
